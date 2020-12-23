@@ -21,16 +21,13 @@ class Challenge:
     rospy.init_node('challenge_movebase', anonymous=True)
 
   def callback(self, data):    
-    tag_id = data
-    # print(tag_id)
-
-    if (tag_id == 'data: 0'):
+    if (data == 0):
       print('[info] ID 0 detected')
       self.goal_move_base(1,1)
-    elif (tag_id == 'data: 1'):
+    elif (data == 1):
       print('[info] ID 1 detected')
       self.goal_move_base(2,2)
-    elif (tag_id == 'data: 2'):
+    elif (data == 2):
       print('[info] ID 2 detected')
       self.goal_move_base(0,0)
     else:
