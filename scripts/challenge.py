@@ -7,7 +7,6 @@ import rospy
 import numpy as np
 from std_msgs.msg import Int32
 from std_msgs.msg import String
-from controller import Controller
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Image
 from actionlib_msgs.msg import GoalID 
@@ -15,7 +14,6 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Twist, Vector3
 from cv_bridge import CvBridge, CvBridgeError
 from move_base_msgs.msg import MoveBaseActionGoal
-from nav2d_navigator.msg import GetFirstMapActionGoal, ExploreActionGoal
 
 class Challenge:
   def __init__(self):
