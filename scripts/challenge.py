@@ -21,8 +21,8 @@ class Challenge:
     rospy.init_node('challenge_movebase', anonymous=True)
 
   def callback(self, data):    
-    tag_id = data
-    print(data)
+    tag_id = int(data)
+    print(tag_id)
 
     if (tag_id == 0):
       print('[info] ID 0 detected')
