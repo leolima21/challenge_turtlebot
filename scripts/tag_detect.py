@@ -10,7 +10,7 @@ from std_msgs.msg import Int32
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
-class Challenge:
+class Tag_detect:
   def __init__(self):
     # Criacao do objeto de convercao
     self.bridge = CvBridge()
@@ -50,7 +50,7 @@ class Challenge:
 # Funcao main
 if __name__ == '__main__':
   try:
-    challenge = Challenge()
-    challenge.listener()
+    tag_detect = Tag_detect()
+    tag_detect.listener()
   except rospy.ROSInterruptException:
     pass	
