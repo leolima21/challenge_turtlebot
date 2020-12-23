@@ -29,11 +29,16 @@ class Challenge:
     options = apriltag.DetectorOptions(families="tag36h11")
     detector = apriltag.Detector(options)
     results = detector.detect(cv2_frame_grey)
+    
+    # for r in results:
+    #   (cX, cY) = (int(r.center[0]), int(r.center[1]))
+    #   cv2.circle(cv2_frame, (cX, cY), 5, (0,0,255), -1)
 
     if len(results) > 0:
       self.tag_id_pub.publish(results[0].tag_id)
 
     print('[info] buscando por tags...')
+    # self.tag_image_pub.publish(Image)
 
   def listener(self):
     # Inscricao no topico e definicao da callback como funcao a ser executada
