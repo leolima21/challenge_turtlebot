@@ -22,7 +22,7 @@ class Challenge:
 
   def callback(self, data):    
     tag_id = int(data)
-    print(tag_id)
+    # print(tag_id)
 
     if (tag_id == 'data: 0'):
       print('[info] ID 0 detected')
