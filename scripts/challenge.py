@@ -18,6 +18,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 class Challenge:
   def __init__(self):
     self.move_base_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=1)
+    rospy.init_node('challenge_movebase', anonymous=True)
 
   def callback(self, data):    
     tag_id = data
