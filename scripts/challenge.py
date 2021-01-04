@@ -26,7 +26,7 @@ class Challenge:
       self.goal_move_base(0.5,0)
     elif (data.data == 1):
       print('[info] ID 1 detected')
-      self.goal_move_base(1,0)
+      self.goal_move_base(-0.5,0)
     elif (data.data == 2):
       print('[info] ID 2 detected')
       self.goal_move_base(0,0)
