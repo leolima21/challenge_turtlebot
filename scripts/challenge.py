@@ -67,7 +67,7 @@ class Challenge:
     # msg_move_to_goal.header.frame_id = 'base_footprint'
 
     self.move_base_pub.publish(msg_move_to_goal)
-    sleep(20)
+    # sleep(20)
     # add aqui a espera pelo resutado do move base
 
 # Funcao main
