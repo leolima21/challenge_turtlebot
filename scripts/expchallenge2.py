@@ -29,30 +29,25 @@ class Challenge:
     print('[info] variaveis iniciadas')
     
   def callback(self, data):    
-    if self.time_var >= 300:
+    if (data.data >= 0):
+      self.cmd_vel_pub(0,0)
+      print('[info] tag ' + str(data.data) + ' detectada')
+
+    if (self.time_var >= 300 and data.data == -1):
       self.time_var = 0
       rand_x = random.randint(-1,1)
       rand_y = random.randint(-1,1)
       rand_z = random.randint(-1,1)
       rand_w = 0.67
-
-      self.goal_move_base(rand_x, rand_y, rand_z, rand_w)
-
+      self.goal_move_base(rand_x, rand_y, rand_z, rand_w) 
+        
     self.time_var += 1
-    print(str(data.data))
-    # print(self.time_var)
-
-  def callback_2(self, data):
-    print('[info] tag ' + str(data.data) + ' detectada')
-    self.goal_move_base(0, 0, 0, 0)
-    # self.cmd_vel_pub(0,0)
-    self.time_var = 0
     
   def listener(self):
     # Inscricao no topico e definicao da callback como funcao a ser executada
     # rospy.Subscriber("challenge/tag_id", Int32, self.callback_2)
     # rospy.Subscriber("picamera/image_raw", Image, self.callback)
-    rospy.Subscriber("picamera/tag_id", Int32, self.callback)
+    rospy.Subscriber("challenge/tag_id", Int32, self.callback)
 
     # Mantem o python funcionando apos o encerramendo do node
     rospy.spin()
