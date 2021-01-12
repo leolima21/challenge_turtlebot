@@ -19,25 +19,32 @@ from move_base_msgs.msg import MoveBaseActionGoal
 
 class Challenge:
   def __init__(self):
-    self.move_base_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=1)
+    self.move_base_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=0)
     rospy.init_node('challenge_movebase', anonymous=True)  
+
+    self.velocity_publisher = rospy.Publisher('cmd_vel', Twist, queue_size=0)
+
+    self.time_var = 300
     
   def callback(self, data):    
-    rand_x = random.randint(-1,1)
-    rand_y = random.randint(-1,1)
-    rand_z = random.randint(-1,1)
-    rand_w = 0.67
+    if self.time_var >= 300:
+      self.time_var = 0
+      rand_x = random.randint(-1,1)
+      rand_y = random.randint(-1,1)
+      rand_z = random.randint(-1,1)
+      rand_w = 0.67
 
-    self.goal_move_base(rand_x, rand_y, rand_z, rand_w)
+      self.goal_move_base(rand_x, rand_y, rand_z, rand_w)
 
-    sleep(10)
+    self.time_var += 1
+    # print(self.time_var)
 
   def callback_2(self, data):
     print('[info] tag ' + str(data.data) + ' detectada')
-    self.goal_move_base(0, 0, 0, 0)
-
-    sleep(10)
-
+    # self.goal_move_base(0, 0, 0, 0)
+    self.cmd_vel_pub(0,0)
+    self.time_var = 0
+    
   def listener(self):
     # Inscricao no topico e definicao da callback como funcao a ser executada
     rospy.Subscriber("challenge/tag_id", Int32, self.callback_2)
@@ -59,6 +66,12 @@ class Challenge:
     self.move_base_pub.publish(msg_move_to_goal)
     # sleep(20)
     # add aqui a espera pelo resutado do move base
+
+  def cmd_vel_pub(self, linear, angular):
+    vel_msg = Twist()
+    vel_msg.linear.x = linear
+    vel_msg.angular.z = angular
+    self.velocity_publisher.publish(vel_msg)
 
 # Funcao main
 if __name__ == '__main__':
