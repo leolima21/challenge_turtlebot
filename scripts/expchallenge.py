@@ -24,10 +24,10 @@ class Challenge:
 
     self.velocity_publisher = rospy.Publisher('cmd_vel', Twist, queue_size=0)
 
-    self.time_var = 300
+    self.time_var = 150
     
   def callback(self, data):    
-    if self.time_var >= 300:
+    if self.time_var >= 150:
       self.time_var = 0
       rand_x = random.randint(-1,1)
       rand_y = random.randint(-1,1)
@@ -37,12 +37,12 @@ class Challenge:
       self.goal_move_base(rand_x, rand_y, rand_z, rand_w)
 
     self.time_var += 1
-    # print(self.time_var)
+    print(self.time_var)
 
   def callback_2(self, data):
     print('[info] tag ' + str(data.data) + ' detectada')
-    # self.goal_move_base(0, 0, 0, 0)
-    self.cmd_vel_pub(0,0)
+    self.goal_move_base(0, 0, 0, 0)
+    # self.cmd_vel_pub(0,0)
     self.time_var = 0
     
   def listener(self):
