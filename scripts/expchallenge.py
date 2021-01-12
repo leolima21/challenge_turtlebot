@@ -46,7 +46,7 @@ class Challenge:
     msg_move_to_goal.pose.position.y = pose_y
     msg_move_to_goal.pose.orientation.z = pose_z
     msg_move_to_goal.pose.orientation.w = pose_w
-    msg_move_to_goal.header.frame_id = 'map'
+    msg_move_to_goal.header.frame_id = 'base_footprint'
     # msg_move_to_goal.header.frame_id = 'base_footprint'
 
     self.move_base_pub.publish(msg_move_to_goal)
