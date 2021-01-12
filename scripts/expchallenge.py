@@ -30,11 +30,11 @@ class Challenge:
 
     self.goal_move_base(rand_x, rand_y, rand_z, rand_w)
 
-    sleep(20)
+    sleep(10)
 
   def listener(self):
     # Inscricao no topico e definicao da callback como funcao a ser executada
-    rospy.Subscriber("challenge/tag_id", Int32, self.callback)
+    rospy.Subscriber("picamera/image_raw", Image, self.callback)
 
     # Mantem o python funcionando apos o encerramendo do node
     rospy.spin()
