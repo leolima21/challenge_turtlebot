@@ -32,8 +32,15 @@ class Challenge:
 
     sleep(10)
 
+  def callback_2(self, data):
+    print('[info] tag ' + str(data.data) + ' detectada')
+    self.goal_move_base(0, 0, 0, 0)
+
+    sleep(10)
+
   def listener(self):
     # Inscricao no topico e definicao da callback como funcao a ser executada
+    rospy.Subscriber("challenge/tag_id", Int32, self.callback_2)
     rospy.Subscriber("picamera/image_raw", Image, self.callback)
 
     # Mantem o python funcionando apos o encerramendo do node
