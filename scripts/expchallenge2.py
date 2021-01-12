@@ -19,12 +19,14 @@ from move_base_msgs.msg import MoveBaseActionGoal
 
 class Challenge:
   def __init__(self):
+    print('[info] iniciando variaveis...')
     self.move_base_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=0)
     rospy.init_node('challenge_movebase', anonymous=True)  
 
     self.velocity_publisher = rospy.Publisher('cmd_vel', Twist, queue_size=0)
 
     self.time_var = 300
+    print('[info] variaveis iniciadas')
     
   def callback(self, data):    
     if self.time_var >= 300:
@@ -37,6 +39,7 @@ class Challenge:
       self.goal_move_base(rand_x, rand_y, rand_z, rand_w)
 
     self.time_var += 1
+    print(str(data.data))
     # print(self.time_var)
 
   def callback_2(self, data):
@@ -47,8 +50,9 @@ class Challenge:
     
   def listener(self):
     # Inscricao no topico e definicao da callback como funcao a ser executada
-    rospy.Subscriber("challenge/tag_id", Int32, self.callback_2)
-    rospy.Subscriber("picamera/image_raw", Image, self.callback)
+    # rospy.Subscriber("challenge/tag_id", Int32, self.callback_2)
+    # rospy.Subscriber("picamera/image_raw", Image, self.callback)
+    rospy.Subscriber("picamera/tag_id", Int32, self.callback)
 
     # Mantem o python funcionando apos o encerramendo do node
     rospy.spin()

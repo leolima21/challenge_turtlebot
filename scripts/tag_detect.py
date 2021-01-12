@@ -36,6 +36,8 @@ class Tag_detect:
 
     if len(results) > 0:
       self.tag_id_pub.publish(results[0].tag_id)
+    else:
+      self.tag_id_pub.publish(-1)
 
     print('[info] buscando por tags...')
     # self.tag_image_pub.publish(Image)
