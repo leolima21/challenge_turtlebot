@@ -26,7 +26,7 @@ class Challenge:
   def __init__(self):
     print('[info] iniciando variaveis...')
     
-    rospy.init_node('explorer', anonymous=True) 
+    rospy.init_node('explorer') #, anonymous=True) 
 
     # testar o queue_size com 1 e 10
     self.move_base_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=1)
@@ -36,7 +36,7 @@ class Challenge:
     # self.tflistener = tf.TransformListener()
 
     # ------------------
-    self.time_var = 300
+    self.time_var = 100
 
     # self.tag_0_status = False
     # self.tag_1_status = False
@@ -50,7 +50,7 @@ class Challenge:
   
   def callback(self, data): 
     # tag_det = self.tag_detect(data)
-    if (self.time_var >= 300):
+    if (self.time_var >= 200):
       self.time_var = 0
       rand_x = random.randint(-1,1)
       rand_y = random.randint(-1,1)

@@ -45,6 +45,8 @@ class Challenge:
     self.tag_1_go = False
     self.tag_2_go = False
 
+    self.explorer_status = False
+
     print('[info] variaveis iniciadas')
   
   def callback(self, data): 
@@ -84,6 +86,10 @@ class Challenge:
         print(self.tag_2_p)
 
     if self.tag_0_status == True and self.tag_1_status == True and self.tag_2_status == True:
+      if self.explorer_status == False:
+        os.system("rosnode kill /explorer")
+        self.explorer_status = True
+        
       # rosnode kill explorer--------------------      
       if (tag_det == 0 and self.tag_1_go == False):
         print('[info] ID 0 detected and going to tag 1')
