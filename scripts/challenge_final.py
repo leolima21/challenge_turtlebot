@@ -63,6 +63,7 @@ class Challenge:
                         round(rot[3], 2)
                         ]
         # self.goal_move_base(0, 0, -1, 1)
+        print('[info] Ponto da tag 0:')
         print(self.tag_0_p)
 
       elif tag_det == 1 and self.tag_1_status == False:
@@ -73,6 +74,7 @@ class Challenge:
                         round(rot[3], 2)
                         ]
         # self.goal_move_base(0, 0, -1, 1)
+        print('[info] Ponto da tag 1:')
         print(self.tag_1_p)
 
       elif tag_det == 2 and self.tag_2_status == False:
@@ -83,11 +85,12 @@ class Challenge:
                         round(rot[3], 2)
                         ]
         # self.goal_move_base(0, 0, -1, 1)
+        print('[info] Ponto da tag 2:')
         print(self.tag_2_p)
 
     if self.tag_0_status == True and self.tag_1_status == True and self.tag_2_status == True:
       if self.explorer_status == False:
-        os.system("rosnode kill /explorer")
+        os.system("rosnode kill /explore")
         self.explorer_status = True
         
       # rosnode kill explorer--------------------      

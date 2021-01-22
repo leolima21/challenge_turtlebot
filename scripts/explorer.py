@@ -367,7 +367,7 @@ class jackal_explore:
                                     rospy.loginfo('sending number '+str(i+2) + ' in list')
                                 else:
                                     rospy.loginfo('Mapping Done')
-                                    self.send = False
+                                    # self.send = False
 
 
                     # rospy.loginfo([nextpnt,self.prevpnt])
@@ -389,7 +389,7 @@ class jackal_explore:
                                 nextpnt = frontier_pnts[idx]
                                 rospy.loginfo('Sent second closest')
                             else:
-                                self.send = False
+                                # self.send = False
                                 rospy.loginfo('Mapping Done')
 
                     if self.send == True:
