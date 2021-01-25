@@ -24,7 +24,7 @@ import roslib
 
 class Challenge:
   def __init__(self):
-    print('[info] initializing vars...')
+    print('[info] Starting vars...')
     
     rospy.init_node('challenge_movebase', anonymous=True) 
 
@@ -47,12 +47,15 @@ class Challenge:
 
     self.explorer_status = False
 
-    print('[info] variaveis iniciadas')
+    print('[info] ...Done')
   
   def callback(self, data): 
+    # Try detect a tag:
     tag_det = self.tag_detect(data)
-
+ 
+    # If a tag was detected:
     if tag_det >= 0:
+      # Save robot point:
       (trans,rot) = self.tflistener.lookupTransform('/map', '/base_footprint', rospy.Time(0))
       
       if tag_det == 0 and self.tag_0_status == False:
@@ -62,8 +65,8 @@ class Challenge:
                         round(rot[2], 2),
                         round(rot[3], 2)
                         ]
-        # self.goal_move_base(0, 0, -1, 1)
-        print('[info] Ponto da tag 0:')
+
+        print('[info] Tag 0 point:')
         print(self.tag_0_p)
 
       elif tag_det == 1 and self.tag_1_status == False:
@@ -73,8 +76,8 @@ class Challenge:
                         round(rot[2], 2),
                         round(rot[3], 2)
                         ]
-        # self.goal_move_base(0, 0, -1, 1)
-        print('[info] Ponto da tag 1:')
+        
+        print('[info] Tag 1 point:')
         print(self.tag_1_p)
 
       elif tag_det == 2 and self.tag_2_status == False:
@@ -84,16 +87,17 @@ class Challenge:
                         round(rot[2], 2),
                         round(rot[3], 2)
                         ]
-        # self.goal_move_base(0, 0, -1, 1)
-        print('[info] Ponto da tag 2:')
+        
+        print('[info] Tag 2 point:')
         print(self.tag_2_p)
 
+    # If 3 tags was detected:
     if self.tag_0_status == True and self.tag_1_status == True and self.tag_2_status == True:
       if self.explorer_status == False:
         os.system("rosnode kill /explore")
         self.explorer_status = True
-        
-      # rosnode kill explorer--------------------      
+
+      # Move base between the tags:       
       if (tag_det == 0 and self.tag_1_go == False):
         print('[info] ID 0 detected and going to tag 1')
         self.goal_move_base(self.tag_1_p[0], self.tag_1_p[1], self.tag_1_p[2], self.tag_1_p[3])
@@ -116,14 +120,12 @@ class Challenge:
         self.tag_2_go = False
 
   def listener(self):
-    # Inscricao no topico e definicao da callback como funcao a ser executada
     rospy.Subscriber("picamera/image_raw", Image, self.callback)
 
-    # Mantem o python funcionando apos o encerramendo do node
     rospy.spin()
   
   def goal_move_base(self, pose_x, pose_y, pose_z, pose_w):
-    # setup pub values with x and y positions
+    # setup pub values with x and y positions:
     msg_move_to_goal = PoseStamped()
     msg_move_to_goal.pose.position.x = pose_x 
     msg_move_to_goal.pose.position.y = pose_y
@@ -133,40 +135,21 @@ class Challenge:
 
     self.move_base_pub.publish(msg_move_to_goal)
 
-  def cmd_vel_pub(self, linear, angular):
-    vel_msg = Twist()
-    vel_msg.linear.x = linear
-    vel_msg.angular.z = angular
-    self.velocity_pub.publish(vel_msg)
-
   def tag_detect(self, data):
-    # Converter a imagem ros para imagem cv2
+    # Convert gray ros img to cv2 img:
     cv2_frame = self.bridge.imgmsg_to_cv2(data, "mono8")
-    # cv2_frame_grey = cv2.cvtColor(cv2_frame, cv2.COLOR_BGR2GRAY)
 
-    # Tag detection
+    # Tag detection:
     options = apriltag.DetectorOptions(families="tag36h11")
     detector = apriltag.Detector(options)
     results = detector.detect(cv2_frame)
-    
-    # for r in results:
-    #   (cX, cY) = (int(r.center[0]), int(r.center[1]))
-    #   cv2.circle(cv2_frame, (cX, cY), 5, (0,0,255), -1)
 
     if len(results) > 0:
       return results[0].tag_id
-      # print('[info] tag detectada')
     else:
       return -1
-      print('[info] buscando por tags...')
 
-  def print_info(self, stat0, stat1, stat2):
-    print('----------------------')
-    print('TAG 0: ' + str(stat0))
-    print('TAG 1: ' + str(stat1))
-    print('TAG 2: ' + str(stat2))
-
-# Funcao main
+# Main function:
 if __name__ == '__main__':
   try:
     challenge = Challenge()
